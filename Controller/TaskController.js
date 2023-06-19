@@ -3,7 +3,8 @@ let emptyArray = [];
 
 //Create
 const TaskCreate = async (req, res) => {
-  const user_id = req.user._id;
+  const category_id = req.cat[1]._id;
+
   const { taskname, time, description } = req.body;
   if (!taskname) {
     emptyArray.push("taskname");
@@ -20,7 +21,7 @@ const TaskCreate = async (req, res) => {
   }
 
   try {
-    const db = await model.create({ taskname, time, description, user_id });
+    const db = await model.create({ taskname, time, description, category_id });
     res.status(200).json(db);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -29,9 +30,12 @@ const TaskCreate = async (req, res) => {
 //Get all
 
 const GetTask = async (req, res) => {
-  const user_id = req.user._id;
-  const db = await model.find({ user_id }).sort({ createdAt: -1 });
-
+  let db = [];
+  //const category_id = req.cat[0]._id;
+  for (let x in req.cat) {
+    let category_id = req.cat[x]._id;
+    db[x] = await model.find({ category_id }).sort({ createdAt: -1 });
+  }
   res.status(200).json(db);
 };
 // Get one

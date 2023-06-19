@@ -14,9 +14,10 @@ const TaskSchema = mongoose.Schema(
       type: String,
       required: [true, "Please Add description of the time"],
     },
-    user_id: {
-      type: String,
+    category_id: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "category",
     },
   },
 

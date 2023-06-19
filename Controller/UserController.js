@@ -2,7 +2,7 @@ const User = require("../Model/User");
 const jwt = require("jsonwebtoken");
 //Token Generator
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "30m" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
 let emptyArray = [];
 

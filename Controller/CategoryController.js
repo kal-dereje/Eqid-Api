@@ -1,4 +1,4 @@
-const model = require("../Model/Category");
+const model = require("../Model/category");
 const mongoose = require("mongoose");
 let emptyArray = [];
 
