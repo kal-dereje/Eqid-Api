@@ -61,7 +61,9 @@ const UpdateTask = async (req, res) => {
     { taskname, time, description, category_id: category_id }
   );
 
-  res.status(200).json(updated);
+  const updated_2 = await model.findById(id);
+
+  res.status(200).json(updated_2);
 };
 //Delete
 
