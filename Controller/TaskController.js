@@ -50,12 +50,16 @@ const GetOneTask = async (req, res) => {
 };
 //Update
 const UpdateTask = async (req, res) => {
+  const { taskname, time, description, category_id } = req.body;
   const { id } = req.params;
   const sv = await model.findById(id);
   if (!sv) {
     return res.status(400).json({ msg: "no id found" });
   }
-  const updated = await model.findByIdAndUpdate({ _id: id }, { ...req.body });
+  const updated = await model.findByIdAndUpdate(
+    { _id: id },
+    { taskname, time, description, category_id: category_id }
+  );
 
   res.status(200).json(updated);
 };
