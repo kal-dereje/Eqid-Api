@@ -16,14 +16,17 @@ const userSchema = mongoose.Schema(
       required: [true, "Please Add password"],
     },
     image: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      default: " ",
     },
   },
   { timestamps: true }
 );
 //static
 userSchema.statics.SignUp = async function (username, email, password, image) {
+  if (!email || !password || !username || image === undefined) {
+    throw Error("All files are required");
+  }
   if (!validator.isEmail(email)) {
     throw Error("Email is not valid");
   }
@@ -41,7 +44,7 @@ userSchema.statics.SignUp = async function (username, email, password, image) {
     username,
     email,
     password: hash,
-    image: { data: image, contentType: "image/png" },
+    image,
   });
   return users;
 };

@@ -4,34 +4,20 @@ const jwt = require("jsonwebtoken");
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
-let emptyArray = [];
 
 //Sign Up
 const UserCreate = async (req, res) => {
   const { username, password, email } = req.body;
-  console.log(req.file);
-  const image = req.file.filename;
-  if (!username) {
-    emptyArray.push("username");
+  const image1 = req.file;
+  if (image1 === undefined) {
+    return res.status(400).json({ message: "insert image" });
   }
-  if (!password) {
-    emptyArray.push("password");
-  }
+  const image2 = image1.filename;
 
-  if (!email) {
-    emptyArray.push("email");
-  }
-  if (!image) {
-    emptyArray.push("image");
-  }
-
-  if (emptyArray.length > 0) {
-    return res.status(400).json({ error: "Please fill the form", emptyArray });
-  }
   try {
-    const users = await User.SignUp(username, email, password, image);
+    const users = await User.SignUp(username, email, password, image2);
 
-    res.status(200).json({ username, image, email });
+    res.status(200).json({ username, image2, email });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -48,7 +34,7 @@ const LoginUser = async (req, res) => {
     const image = users.image;
     //token
     const token = createToken(users._id);
-    res.status(200).json({ username, image, email, token });
+    res.status(200).json({ username, image: image, email, token });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -66,7 +52,24 @@ const GetOneUser = async (req, res) => {
 };
 //Update(For password, username and avatar change for the future)
 const UpdateUser = async (req, res) => {
-  res.status(200).json({ message: "this is update" });
+  const { username, email, password } = req.body;
+
+  const image = req.file.filename;
+  const { id } = req.params;
+
+  const result = await User.findById(id);
+  if (!result) {
+    return res.status(400).json({ msg: "no id found" });
+  }
+  const updated = await User.findByIdAndUpdate(
+    { _id: id },
+    { username, email, password, image }
+  );
+
+  const updated_2 = await User.findById(id);
+
+  res.status(200).json(updated_2);
+  // res.status(200).json({ message: "this is update" });
 };
 //Delete
 
