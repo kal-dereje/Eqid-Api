@@ -8,6 +8,7 @@ const createToken = (_id) => {
 //Sign Up
 const UserCreate = async (req, res) => {
   const { username, password, email } = req.body;
+
   const image1 = req.file;
   if (image1 === undefined) {
     return res.status(400).json({ message: "insert image" });
@@ -19,7 +20,7 @@ const UserCreate = async (req, res) => {
 
     res.status(200).json({ username, image2, email });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(422).json({ message: err.message });
   }
 };
 
@@ -27,7 +28,7 @@ const UserCreate = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email, password);
   try {
     const users = await User.Login(email, password);
     const username = users.username;
@@ -36,7 +37,7 @@ const LoginUser = async (req, res) => {
     const token = createToken(users._id);
     res.status(200).json({ username, image: image, email, token });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(422).json({ message: err.message });
   }
 };
 

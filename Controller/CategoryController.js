@@ -7,6 +7,7 @@ let emptyArray = [];
 const categoryCreate = async (req, res) => {
   const user_id = req.user._id;
   const { categoryName } = req.body;
+  console.log(categoryName);
   if (!categoryName) {
     emptyArray.push("categoryName");
   }
@@ -25,6 +26,7 @@ const categoryCreate = async (req, res) => {
 //Get all
 
 const GetCategory = async (req, res) => {
+  console.log("ka");
   const user_id = req.user._id;
   const db = await model.find({ user_id }).sort({ createdAt: -1 });
 
