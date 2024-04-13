@@ -5,21 +5,8 @@ let emptyArray = [];
 const TaskCreate = async (req, res) => {
   //const category_id = req.cat[0]._id;
   //console.log(category_id);
-
+  console.log(req.body);
   const { taskname, time, description, category_id } = req.body;
-  if (!taskname) {
-    emptyArray.push("taskname");
-  }
-  if (!time) {
-    emptyArray.push("time");
-  }
-  if (!description) {
-    emptyArray.push("description");
-  }
-
-  if (emptyArray.length > 0) {
-    return res.status(400).json({ error: "Please fill the form", emptyArray });
-  }
 
   try {
     const db = await model.create({ taskname, time, description, category_id });
@@ -50,7 +37,7 @@ const GetOneTask = async (req, res) => {
 };
 //Update
 const UpdateTask = async (req, res) => {
-  const { taskname, time, description, category_id } = req.body;
+  const { taskname, time, description } = req.body;
   const { id } = req.params;
   const sv = await model.findById(id);
   if (!sv) {
@@ -58,7 +45,7 @@ const UpdateTask = async (req, res) => {
   }
   const updated = await model.findByIdAndUpdate(
     { _id: id },
-    { taskname, time, description, category_id: category_id }
+    { taskname, time, description }
   );
 
   const updated_2 = await model.findById(id);

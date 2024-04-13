@@ -6,14 +6,7 @@ const TaskSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter Task Name"],
     },
-    time: {
-      type: String,
-      required: [true, "Please enter time"],
-    },
-    description: {
-      type: String,
-      required: [true, "Please Add description of the time"],
-    },
+
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
